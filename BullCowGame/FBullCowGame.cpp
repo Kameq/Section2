@@ -1,28 +1,71 @@
 #include "FBullCowGame.h"
 
-int FBullCowGame::getMaxTries() const { return maxTries; }
-int FBullCowGame::getCurrentTry() const { return currentTry; }
+int32 FBullCowGame::getMaxTries() const { return maxTries; }
+int32 FBullCowGame::getCurrentTry() const { return currentTry; }
+int32 FBullCowGame::getHiddenWordLength() const { return myHiddenWord.length(); }
+bool FBullCowGame::isGameWon() const { return bGameIsWon; }
 
 FBullCowGame::FBullCowGame()
 	{
 	Reset(8);
 	}
-void FBullCowGame::Reset(int wordLength)
+
+void FBullCowGame::Reset(int32 wordLength)
 	{
 	maxTries = 8;
 	currentTry = 1;
+	bGameIsWon = false;
+
+	const FString HIDDEN_WORD = "planet";
+	myHiddenWord = HIDDEN_WORD;
 
 	return;
 	}
 
-bool FBullCowGame::isGameWon() const
+EWordStatus FBullCowGame::checkGuessValidity(FString aGuess) const
 	{
-
-	return false;
+	if (false) // if not isogram
+		{
+		return EWordStatus::Not_Isogram;
+		}
+	else if (false) // if not lowerrcase
+		{
+		return EWordStatus::Not_Lowercase;
+		}
+	else if (aGuess.length() != getHiddenWordLength()) // if wrong length
+		{
+		return EWordStatus::Wrong_Length;
+		}
+	else
+		return EWordStatus::OK;
 	}
 
-bool FBullCowGame::checkGuessValidity(std::string)
+// receives valid guess, increments turn, return count.
+FBullCowCount FBullCowGame::submitGuess(FString aGuess)
 	{
+	currentTry++;
 
-	return false;
+	FBullCowCount BullCowCount;
+	int32 hiddenWordLength = myHiddenWord.length();
+
+	for (int32 i = 0; i < hiddenWordLength; i++)
+		{
+		for (int32 j = 0; j < hiddenWordLength; j++)
+			{
+			if (aGuess[j] == myHiddenWord[i])
+				{
+				if (i == j)
+					BullCowCount.Bulls++;
+				else
+					BullCowCount.Cows++;
+				}
+			}
+		}
+
+	if (BullCowCount.Bulls == hiddenWordLength)
+		bGameIsWon = true;
+	else
+		bGameIsWon = false;
+
+	return BullCowCount;
 	}
