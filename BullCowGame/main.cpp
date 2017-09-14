@@ -3,23 +3,25 @@
 	 Game logic is in FBullCowGame class.
 
 */
+#pragma once
 
 #include <iostream>
 #include <string>
 #include "FBullCowGame.h"
 
-
+// unreal friendly syntax
 using FText = std::string;
 using int32 = int;
 
-//using namespace std;
+// function prototypes outside of class
 void intro();
 void summary();
 void playGame();
 FText getGuess();
 bool playAgain();
 
-FBullCowGame BCGame; // make instance of new game
+// make instance of new game
+FBullCowGame BCGame; 
 
 int main()
 	{
@@ -48,7 +50,8 @@ void playGame()
 		FText Guess = getGuess();
 		FBullCowCount bullCowCount = BCGame.submitGuess(Guess);
 		std::cout << "Bull count: " << bullCowCount.Bulls << std::endl;
-		std::cout << "Cows count: " << bullCowCount.Cows << std::endl << std::endl;
+		std::cout << "Cows count: " << bullCowCount.Cows << std::endl;
+		std::cout << "Your tries count: " << BCGame.getCurrentTry() - 1 << "/" << BCGame.getMaxTries() << std::endl << std::endl;
 		}
 
 	return;

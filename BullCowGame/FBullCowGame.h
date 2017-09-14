@@ -1,3 +1,6 @@
+/* The game logic (no view)
+*/
+
 #pragma once
 #include <string>
 
@@ -35,11 +38,11 @@ class FBullCowGame
 		FBullCowCount submitGuess(FString);
 
 	private:
-		int32 maxTries;
 		int32 currentTry;
 		FString myHiddenWord;
 		bool bGameIsWon;
-
+		bool isIsogram(FString) const;
+		bool isLowerCase(FString) const;
 		//bool isIsogram(FString);
 
 	};
